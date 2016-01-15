@@ -1,7 +1,7 @@
 var formidable = require('formidable'),
     http = require('http'),
     util = require('util'),
-    fs   = require('fs-extra'),
+    fs   = require('fs'),
     TextUtils = require('./TextUtils.js'); 
 
 /**
@@ -9,7 +9,7 @@ var formidable = require('formidable'),
 **/
 
 var htmlHead = '<!DOCTYPE html><html lang="en"><head><!-- view-source:https://ironsummitmedia.github.io/startbootstrap-bare/ --> <meta charset="utf-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1"> <meta name="description" content=""> <meta name="author" content=""> <title>Frequency Counter</title> <!-- Bootstrap Core CSS --> <link href="https://ironsummitmedia.github.io/startbootstrap-bare/css/bootstrap.min.css" rel="stylesheet"> <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries --> <!-- WARNING: Respond.js doesn\'t work if you view the page via file:// --> <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]--></head><body> <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"> <div class="container"> <div class="navbar-header"> <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/">Frequency Counter</a> </div><div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> <ul class="nav navbar-nav"> <li> <a href="/">Home</a> </li></ul> </div></div></nav><div class="container" style="padding-top:100px;">';
-var htmlForm = '<form class="" action="/upload" enctype="multipart/form-data" method="post"><div class=row><div clas=col-md-4><input class="form-control" type=file name=upload multiple></div><br><div clas=col-md-4><input min=1 type=number name=numFreq class="col-md-4" placeholder="Number of frequent words to get"></div><div class=col-md-4><input class="btn btn-large btn-success" type=submit value=Upload></div></div></form>';
+var htmlForm = ' <p> This is a simple web applications that allows you to upload a .txt file and then counts the most frequent words in the file. To use, upload a txt file and select the number of frequent words to keep (defaults to 25) and then hit Count. </p><form class="form" action="/upload" enctype="multipart/form-data" method="post"> <div class="form-group col-md-4"><input class="form-control" type="file" name="upload" multiple=""></div><div class="form-group col-md-2"> <input min="1" type="number" name="numFreq" class="form-control" placeholder="# of frequent words"> </div><div class="form-group col-md-3"> <input class="btn btn-large btn-success" type="submit" value="Count"> </div></form>';
 var htmlFoot = '</div><!-- jQuery Version 1.11.1 --> <script src="https://ironsummitmedia.github.io/startbootstrap-bare/js/jquery.js"></script> <!-- Bootstrap Core JavaScript --> <script src="https://ironsummitmedia.github.io/startbootstrap-bare/js/bootstrap.min.js"></script></body></html>';
 
 //handles errors
@@ -68,7 +68,15 @@ requestHandler = function (req, res) {
 				if (err)
 					return handleError(err, res);
 
-				return handleSuccess(data, TextUtils.getMostFrequentWords(fields.numFreq ? fields.numFreq : 25, data), res);
+				if(data.length < 1)
+					return handleError('The file you submitted is empty', res);
+
+				try {
+					return handleSuccess(data, TextUtils.getMostFrequentWords(fields.numFreq ? fields.numFreq : 25, data), res);
+				} catch (err) {//TextUtils.getMostFrequentWords throws exceptions
+					return handleError(err, res);
+				}
+
 			});
 		});//end form parse
 		return;
