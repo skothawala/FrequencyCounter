@@ -16,5 +16,5 @@
     "fs-extra": "*",
     "min-heap": "*"
   },
-  "license": "ISC"
+  "repository": "https://github.com/skothawala/FrequencyCounter"
 }
