@@ -16,5 +16,5 @@
     "fs-extra": "*",
     "min-heap": "*"
   },
-  "repository": "https://github.com/skothawala/FrequencyCounter"
+  "repository": "https://github.com/skothawala/FrequencyCounter.git"
 }
