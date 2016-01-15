@@ -11,9 +11,6 @@
   "dependencies": {
     "body-parser": "*",
     "connect-multiparty": "^2.0.0",
-    "express": "^5.0.0-alpha.1",
-    "jsonwebtoken": "*",
-    "mongoose": "*",
     "underscore": "^1.8.3",
     "formidable": "*",
     "fs-extra": "*",
