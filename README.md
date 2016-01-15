@@ -1,6 +1,7 @@
 # Frequency Counter
 This simple web server accepts a text document from the user, counts how often each word is used in it, and then reports the top results in a nice table
 
+Live Demo: https://frequencycounter.herokuapp.com/
 - - - -
 #### How it works
 
@@ -20,8 +21,6 @@ Clone the repo, and hit node server.
 If you have mocha instaled, just type go to the directory and type "mocha".
 
 - - - -
-#### Live Demo
 
-https://frequencycounter.herokuapp.com/
 
 
