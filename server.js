@@ -22,16 +22,18 @@ handleError = function (err, res){
 }
 
 //handles successfully posted
-handleSuccess = function (mostCommon,res){
+handleSuccess = function (data, mostCommon, res){
 	res.writeHead(200, {'content-type': 'text/html'});
 	res.write(htmlHead);
+	res.write('<p>Input: </p><pre>' + data + '</pre>');
 	res.write('<table class="table table-hover"><thead><tr><th>Word</th><th>Frequency</th></tr></thead><tbody>')
+
+	//because I'm not using a min heap or a sorted structure, I need to sort the most common
 	var sorted = [];
 	for(word in mostCommon)
 		sorted.push([word, mostCommon[word]]);
 	sorted.sort(function(a, b) {return b[1] - a[1]})
 
-	console.log(sorted);
 	
 	for (var i = 0; i < sorted.length; i++) {
 		res.write('<tr>');
@@ -63,11 +65,10 @@ requestHandler = function (req, res) {
 				return handleError('You can only upload txt files', res);
 
 			fs.readFile(files.upload.path, 'utf8', function (err, data) {
-				if (err) {
+				if (err)
 					return handleError(err, res);
-				}
 
-				return handleSuccess(TextUtils.getMostFrequentWords(fields.numFreq ? fields.numFreq : 25, data), res);
+				return handleSuccess(data, TextUtils.getMostFrequentWords(fields.numFreq ? fields.numFreq : 25, data), res);
 			});
 		});//end form parse
 		return;
@@ -81,3 +82,5 @@ requestHandler = function (req, res) {
 
 var server = http.createServer(requestHandler);
 server.listen(8080);
+
+console.log('Listening on 8080');
