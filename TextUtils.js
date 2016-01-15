@@ -58,7 +58,7 @@ var TextUtils  = {
 
 		var allWords = Object();
 		var mostCommonWords = Object();//max lenght should be 5
-		mostCommonWords['00_length'] = 0;
+		mostCommonWords['00_length'] = 0;//00 used to prevent confusion with the actual word "length"
 		mostCommonWords['00_smallestWordHere'] = -1;
 
 		/*First add the word to the words object*/
