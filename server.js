@@ -81,7 +81,7 @@ requestHandler = function (req, res) {
 };
 
 
-var port = process.env.PORT || config.port;//for heroku
+var port = process.env.PORT || 8080;//for heroku
 var server = http.createServer(requestHandler);
 server.listen(port);
 
