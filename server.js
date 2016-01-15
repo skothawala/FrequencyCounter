@@ -80,7 +80,9 @@ requestHandler = function (req, res) {
 
 };
 
-var server = http.createServer(requestHandler);
-server.listen(8080);
 
-console.log('Listening on 8080');
+var port = process.env.PORT || config.port;//for heroku
+var server = http.createServer(requestHandler);
+server.listen(port);
+
+console.log('Listening on ' + port);
